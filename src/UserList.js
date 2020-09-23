@@ -4,7 +4,8 @@ import React from 'react';
 class UserList extends React.Component {
     constructor(props) {
         super(props);
-        this.retrieveUsersFromAPI = this.retrieveUsersFromAPI.bind(this)
+        this.retrieveUsersFromAPI = this.retrieveUsersFromAPI.bind(this);
+        this.deleteUserFromAPI = this.deleteUserFromAPI.bind(this);
         this.state = {
             isLoaded: false,
             userData: [],
@@ -17,11 +18,17 @@ class UserList extends React.Component {
             .then((data) => {
                 this.setState({ userData: data, isLoaded: true })
             })
-            .catch(console.log)
+            .catch(console.log);
+    }
+
+    deleteUserFromAPI(event, userID){
+        fetch('http://localhost:4000/user/' + userID, {method:'DELETE'})
+            .then(res => console.log(res))
+            .finally(() => this.retrieveUsersFromAPI());
     }
 
     componentDidMount() {
-        this.retrieveUsersFromAPI()
+        this.retrieveUsersFromAPI();
     }
 
     render() {
@@ -29,6 +36,9 @@ class UserList extends React.Component {
         if(isLoaded) {
             return (
                 <div>
+                    <div>
+                        <h2>Lista de Usuarios</h2>
+                    </div>
                     <table>
                         <thead>
                         <tr>
@@ -38,6 +48,7 @@ class UserList extends React.Component {
                             <th>Creacion</th>
                             <th>Actualización</th>
                             <th>Archivo</th>
+                            <th>Acción</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -51,6 +62,7 @@ class UserList extends React.Component {
                                         <td>{user.CreatedAt}</td>
                                         <td>{user.UpdatedAt}</td>
                                         <td>{user.display_pic_route}</td>
+                                        <td><button onClick={(e) => this.deleteUserFromAPI(e, user.ID)}>Eliminar</button></td>
                                     </tr>
                                 )
                             })
