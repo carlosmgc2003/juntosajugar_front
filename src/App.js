@@ -1,16 +1,31 @@
 import React from 'react';
-import UserList from "./UserList";
-import UserCreation from "./UserCreation";
+import Home from "./pages/homePage";
+import {
+    Switch,
+    Route
+} from "react-router-dom";
+import Login from "./pages/joinPage";
+import GameList from "./pages/gameListPage";
+import NewGame from "./pages/newGamePage";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <UserList url='http://localhost:4000/user'/>
-          <UserCreation></UserCreation>
-      </header>
-
-    </div>
+      <div>
+          <Switch>
+              <Route path="/newgame">
+                  <NewGame />
+              </Route>
+              <Route path="/games">
+                  <GameList />
+              </Route>
+              <Route path="/login">
+                  <Login />
+              </Route>
+              <Route path="/">
+                  <Home />
+              </Route>
+          </Switch>
+      </div>
   );
 }
 
