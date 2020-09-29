@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import {Button} from "@material-ui/core";
-import { Link as RouterLink } from 'react-router-dom';
+import {Link as RouterLink} from 'react-router-dom';
+import {authenticator} from "../App";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -16,6 +17,31 @@ const useStyles = makeStyles((theme) => ({
         color: theme.palette.text.secondary,
     },
 }));
+
+
+// Componente boton que demuestra el estado de autenticacion del usuario.
+function LoginButton(props) {
+    const [auth, setAuth] = useState(props.authenticated);
+    if (auth) {
+        return (
+            <Button variant="contained"
+                    color="primary"
+                    onClick={() => {
+                        authenticator.signout();
+                        setAuth(false);
+                    }
+                    }
+                    to="/login">Salir</Button>
+        )
+    } else {
+        return (
+            <Button variant="contained"
+                    color="primary"
+                    component={RouterLink}
+                    to="/login">Unirse</Button>
+        )
+    }
+}
 
 export default function Home() {
     const classes = useStyles();
@@ -33,10 +59,7 @@ export default function Home() {
                         <h2>Para empezar a jugar</h2>
                         <p>Ingrese como usuario, es rápido!</p>
                         <Paper className={classes.paper}>
-                            <Button variant="contained"
-                                    color="primary"
-                                    component={RouterLink}
-                                    to="/login">Unirse</Button>
+                            <LoginButton authenticated={authenticator.isAuthenticated}/>
                         </Paper>
                     </Grid>
                     <Grid item xs={4}>
