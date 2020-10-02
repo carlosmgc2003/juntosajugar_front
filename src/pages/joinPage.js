@@ -4,6 +4,7 @@ import React from "react";
 import {Button} from "@material-ui/core";
 import {Link as RouterLink, useHistory, useLocation} from "react-router-dom";
 import {authenticator} from "../App"
+import {LoginSocial} from "../components/LoginSocial";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -35,6 +36,8 @@ export default function Login() {
             <div className={classes.root}>
                 <h2>Click para loguearse!</h2>
                 <Button variant="contained" color="secondary" onClick={login}>Loguearse</Button>
+                <h2>Si no tenes cuenta...</h2>
+                <LoginSocial></LoginSocial>
                 <Button variant="contained" color="primary" component={RouterLink} to="/">Volver</Button>
             </div>
         </Container>

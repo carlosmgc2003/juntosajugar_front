@@ -38,7 +38,7 @@ function LoginButton(props) {
             <Button variant="contained"
                     color="primary"
                     component={RouterLink}
-                    to="/login">Unirse</Button>
+                    to="/login">Unirse o Login</Button>
         )
     }
 }

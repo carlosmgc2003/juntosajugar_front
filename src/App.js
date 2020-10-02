@@ -13,9 +13,10 @@ import NewGame from "./pages/newGamePage";
 // Objeto singleton que manejará el estado de login del usuario.
 export const authenticator = {
     isAuthenticated: false,
-    authenticate : function(callback) {
+    name: null,
+    authenticate : function(name) {
         authenticator.isAuthenticated = true;
-        setTimeout(callback, 100);
+        authenticator.name = name;
     },
     signout: function(callback) {
         authenticator.isAuthenticated = false;
