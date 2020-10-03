@@ -31,7 +31,7 @@ function LoginButton(props) {
                         setAuth(false);
                     }
                     }
-                    to="/login">Salir</Button>
+                    to="/login">Salir {authenticator.name}</Button>
         )
     } else {
         return (
@@ -43,8 +43,9 @@ function LoginButton(props) {
     }
 }
 
-export default function Home() {
+export default function Home(props) {
     const classes = useStyles();
+
     return (
         <Container>
             <header>
