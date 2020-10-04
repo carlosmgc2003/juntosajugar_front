@@ -24,14 +24,18 @@ function LoginButton(props) {
     const [auth, setAuth] = useState(props.authenticated);
     if (auth) {
         return (
-            <Button variant="contained"
-                    color="primary"
-                    onClick={() => {
-                        authenticator.signout();
-                        setAuth(false);
-                    }
-                    }
-                    to="/login">Salir {authenticator.name}</Button>
+            <div>
+                <Button variant="contained"
+                        color="primary"
+                        onClick={() => {
+                            authenticator.signout();
+                            setAuth(false);
+                        }
+                        }
+                        to="/login">Salir {authenticator.name}</Button>
+                <Button variant="contained" color="primary">Mi Perfil</Button>
+            </div>
+
         )
     } else {
         return (

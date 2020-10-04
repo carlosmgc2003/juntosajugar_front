@@ -1,67 +1,55 @@
 import React from 'react';
-import { GoogleLogin } from 'react-google-login';
-import { post, get } from "axios";
+import {GoogleLogin} from 'react-google-login';
+import {get, post} from "axios";
 import {authenticator} from "../App";
-import {
-    useHistory
-} from "react-router-dom";
+import {useHistory} from "react-router-dom";
 
-//Hace un GET a la API con el Email del usuario invocado. Si existe devuelve true
-function checkUserExists(email) {
-    let userExists = false;
-    get("http://localhost:4000/user/email/" + email)
-        .then(response => {
-            if(response.email === email) {
-                userExists = true;
-            }
-        })
-        .catch((error) => {
-            console.log(error);
-            alert("Error API caida (check)!");
-        });
-    return userExists;
-}
-
-
-//Guarda el objeto usuario en la API mediante un POST. Si lo logra devuelve OK.
-function saveUserToAPI(user) {
-    post('http://localhost:4000/user', JSON.stringify(user, null, 2))
-        .then( response => {
-            if(response.statusText === "OK" ){
-
-                return "OK";
-
-            }
-        })
-        .catch((error) => {
-            console.log(error);
-            alert("Error API caida (save)!");
-        })
-    return "NOT OK"
-}
 
 export function LoginSocial(props) {
     let history = useHistory();
+
     function handleResponse(response) {
         const userData = response.profileObj;
         const userToken = response.tokenId;
-        let values = {
+        let user = {
             name: userData.name,
             email: userData.email,
             display_pic_route: userData.imageUrl,
             tokenId: userToken
         }
-        if(checkUserExists(values.email)) {
-            if(saveUserToAPI(values) === "OK"){
-                authenticator.authenticate(values.name);
-                history.push("/",{auth:true});
-            }
-        } else {
-            authenticator.authenticate(values.name);
-            history.push("/",{auth:true});
-        }
+        let email = user.email;
+        get("http://localhost:4000/user/email/" + email, {responseType: 'json'})
+            .then(response => {
+                // El status 200 indica que el email existe en la API
+                if (response.status === 200) {
+                    authenticator.authenticate(user.name);
+                    history.push("/", {auth: true});
+                }
+            })
+            .catch((error) => {
+                // Es una cuestion de Chrome que un 404, que seria esperado, igual se registre como error
+                // El error 404 indica que el usuario no existe para la API
+                if (error.response.status === 404) {
+                    post('http://localhost:4000/user', JSON.stringify(user, null, 2))
+                        .then(response => {
+                            if (response.status === 200) {
+                                authenticator.authenticate(user.name);
+                                history.push("/", {auth: true});
+                            }
+                        })
+                        .catch((error) => {
+                            if (!error.response.status === 409) {
+                                console.log(error);
+                                alert("Error API caida (post)!");
+                            }
+                        })
+                } else {
+                    console.log("Error API caida (get)")
+                }
+            });
     }
-    return(<GoogleLogin
+
+    return (<GoogleLogin
         clientId="836483726590-4krmbdnkuoo60tlfl9kbk9mlof558sli.apps.googleusercontent.com"
         buttonText="Login"
         onSuccess={handleResponse}
