@@ -15,14 +15,15 @@ export function LoginSocial(props) {
             name: userData.name,
             email: userData.email,
             display_pic_route: userData.imageUrl,
-            tokenId: userToken
+            tokenId: userToken,
+            password: "default"
         }
         let email = user.email;
         get("http://localhost:4000/user/email/" + email, {responseType: 'json'})
             .then(response => {
                 // El status 200 indica que el email existe en la API
                 if (response.status === 200) {
-                    authenticator.authenticate(user.name);
+                    authenticator.authenticate(user.name, user.email, user.display_pic_route);
                     history.push("/", {auth: true});
                 }
             })

@@ -9,21 +9,37 @@ import Login from "./pages/joinPage";
 import GameList from "./pages/gameListPage";
 import NewGame from "./pages/newGamePage";
 
-
 // Objeto singleton que manejará el estado de login del usuario.
 export const authenticator = {
     isAuthenticated: false,
     name: null,
-    authenticate : function(name) {
+    email: null,
+    display_pic: null,
+    authenticate : function(name, email, display_pic) {
         authenticator.isAuthenticated = true;
         authenticator.name = name;
+        authenticator.email = email;
+        authenticator.display_pic = display_pic;
+        sessionStorage.setItem("name", this.name);
+        sessionStorage.setItem("email", this.email);
+        sessionStorage.setItem("display_pic", this.display_pic)
     },
     signout: function(callback) {
         authenticator.isAuthenticated = false;
+        sessionStorage.clear();
         setTimeout(callback, 100);
+    },
+    init: function() {
+        if(sessionStorage.getItem("email") !== "") {
+            let name = sessionStorage.getItem("name");
+            let email = sessionStorage.getItem("email");
+            let display_pic = sessionStorage.getItem("display_pic");
+            this.authenticate(name, email, display_pic);
+        }
     }
 };
 
+authenticator.init();
 // Componente principal que tiene las rutas necesarias para diferenciar el contenido
 function App() {
     return (

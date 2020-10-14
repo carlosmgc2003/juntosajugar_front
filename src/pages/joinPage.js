@@ -20,9 +20,8 @@ export default function Login() {
 
     let {from} = location.state || {from: {pathname: "/"}};
     let login = () => {
-        authenticator.authenticate(() => {
-            history.replace(from);
-        });
+        authenticator.authenticate("Desconocido", "Desconocido", "Desconocido");
+        history.replace(from);
     };
     const classes = useStyles();
     return (

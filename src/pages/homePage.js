@@ -6,6 +6,7 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 import {Button} from "@material-ui/core";
 import {Link as RouterLink} from 'react-router-dom';
 import {authenticator} from "../App";
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -25,16 +26,23 @@ function LoginButton(props) {
     if (auth) {
         return (
             <div>
-                <Button variant="contained"
-                        color="primary"
-                        onClick={() => {
-                            authenticator.signout();
-                            setAuth(false);
-                        }
-                        }
-                        to="/login">Salir {authenticator.name}</Button>
-                <Button variant="contained" color="primary">Mi Perfil</Button>
+                <div>
+                    {authenticator.display_pic !== "Desconocido" ? <img src={authenticator.display_pic} alt={authenticator.name}/>
+                            : <AccountCircleIcon />}
+                </div>
+                <div>
+                    <Button variant="contained"
+                            color="primary"
+                            onClick={() => {
+                                authenticator.signout();
+                                setAuth(false);
+                            }
+                            }
+                            to="/login">Salir {authenticator.name}</Button>
+                    {/*<Button variant="contained" color="primary">Mi Perfil</Button>*/}
+                </div>
             </div>
+
 
         )
     } else {
