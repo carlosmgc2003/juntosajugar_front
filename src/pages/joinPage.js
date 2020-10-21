@@ -2,9 +2,9 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 import Container from "@material-ui/core/Container";
 import React from "react";
 import {Button} from "@material-ui/core";
-import {Link as RouterLink, useHistory, useLocation} from "react-router-dom";
-import {authenticator} from "../App"
+import {Link as RouterLink} from "react-router-dom";
 import {LoginSocial} from "../components/LoginSocial";
+import {LoginPropio} from "../components/LoginPropio";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -15,14 +15,7 @@ const useStyles = makeStyles((theme) => ({
 
 // Componente de la pagina de login, donde se muestra el formulario
 export default function Login() {
-    let history = useHistory();
-    let location = useLocation();
 
-    let {from} = location.state || {from: {pathname: "/"}};
-    let login = () => {
-        authenticator.authenticate("Desconocido", "Desconocido", "Desconocido");
-        history.replace(from);
-    };
     const classes = useStyles();
     return (
         <Container>
@@ -33,10 +26,10 @@ export default function Login() {
                 </div>
             </header>
             <div className={classes.root}>
-                <h2>Click para loguearse!</h2>
-                <Button variant="contained" color="secondary" onClick={login}>Loguearse</Button>
+                <h2>Cuenta JaJ</h2>
+                <LoginPropio/>
                 <h2>Si no tenes cuenta...</h2>
-                <LoginSocial></LoginSocial>
+                <LoginSocial/>
                 <Button variant="contained" color="primary" component={RouterLink} to="/">Volver</Button>
             </div>
         </Container>
