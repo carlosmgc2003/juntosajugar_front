@@ -13,10 +13,9 @@ class UserList extends React.Component {
     }
 
     retrieveUsersFromAPI(){
-        fetch('http://localhost:4000/user')
-            .then(res => res.json())
-            .then((data) => {
-                this.setState({ userData: data, isLoaded: true })
+        apiclient.get('user')
+            .then((response) => {
+                this.setState({ userData: response.data, isLoaded: true })
             })
             .catch(console.log);
     }

@@ -9,20 +9,32 @@ import Login from "./pages/joinPage";
 import GameList from "./pages/gameListPage";
 import NewGame from "./pages/newGamePage";
 
+const axios = require('axios');
+
+export const apiClient = axios.create({
+    baseURL : "http://localhost:4000/",
+    withCredentials: true
+})
+
+
+
 // Objeto singleton que manejará el estado de login del usuario.
 export const authenticator = {
     isAuthenticated: false,
     name: null,
     email: null,
     display_pic: null,
-    authenticate : function(name, email, display_pic) {
+    sessionCookie: null,
+    authenticate : function(name, email, display_pic, session_cookie) {
         authenticator.isAuthenticated = true;
         authenticator.name = name;
         authenticator.email = email;
         authenticator.display_pic = display_pic;
+        authenticator.sessionCookie = session_cookie;
         sessionStorage.setItem("name", this.name);
         sessionStorage.setItem("email", this.email);
         sessionStorage.setItem("display_pic", this.display_pic)
+        sessionStorage.setItem("sessionCookie", this.sessionCookie)
     },
     signout: function(callback) {
         authenticator.isAuthenticated = false;
@@ -30,7 +42,7 @@ export const authenticator = {
         setTimeout(callback, 100);
     },
     init: function() {
-        if(sessionStorage.getItem("email") !== "") {
+        if(sessionStorage.getItem("email") !== null) {
             let name = sessionStorage.getItem("name");
             let email = sessionStorage.getItem("email");
             let display_pic = sessionStorage.getItem("display_pic");

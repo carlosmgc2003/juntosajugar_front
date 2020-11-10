@@ -1,6 +1,6 @@
 import React from 'react';
 import {ErrorMessage, Field, Form, Formik} from 'formik';
-import {post} from "axios";
+import {apiClient} from "../App";
 
 
 const UserCreation = () => (
@@ -42,7 +42,7 @@ const UserCreation = () => (
             }}
             onSubmit={(values, { setSubmitting }) => {
                 setTimeout(() => {
-                    post('http://localhost:4000/user', JSON.stringify(values, null, 2))
+                    apiClient.post('user', JSON.stringify(values, null, 2))
                         .then((response)=> console.log(response))
                         .catch((error) => console.log(error))
                         .finally(() => alert("Sus datos se han enviado correctamente"))

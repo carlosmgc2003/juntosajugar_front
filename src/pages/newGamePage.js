@@ -3,6 +3,7 @@ import Container from "@material-ui/core/Container";
 import React from "react";
 import {Button} from "@material-ui/core";
 import {Link as RouterLink} from "react-router-dom";
+import {GameCreation} from "../components/GameCreation";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -21,7 +22,7 @@ export default function NewGame() {
                 </div>
             </header>
             <div className={classes.root}>
-                <h2>Aca irá la creacion de una reunion!</h2>
+                <GameCreation></GameCreation>
                 <Button variant="contained" color="primary" component={RouterLink} to="/">Volver</Button>
             </div>
         </Container>

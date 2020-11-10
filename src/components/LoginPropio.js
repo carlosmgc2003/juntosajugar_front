@@ -1,29 +1,32 @@
 import { Formik, Field, Form } from 'formik';
-import React from "react";
+import React, {useState} from "react";
 import Grid from "@material-ui/core/Grid";
-import {get, post} from "axios";
 import {useHistory} from "react-router-dom";
-import {authenticator} from "../App";
+import {apiClient, authenticator} from "../App";
 
 
 export function LoginPropio() {
     let history = useHistory();
+    const [invalidCred, setInvalidCred] = useState(false);
     return (
       <React.Fragment>
-
+          {/*Formulario de formik para login de JaJ*/}
           <Formik initialValues={{
               email: '',
               password: '',
-          }} onSubmit={(values) => {
-              post("http://localhost:4000/login", values)
+          }}
+                  onSubmit={(values) => {
+              /*Post con las credenciales a la API*/
+              apiClient.post("login", values)
                   .then(response => {
+                      /*Si la respuesta es 200 pedimos el resto de los datos*/
                       if (response.status === 200) {
-                          get("http://localhost:4000/user/email/" + values.email, {responseType: 'json'})
+                          apiClient.get("user/email/" + values.email, {responseType: 'json'})
                               .then(response => {
                                   // El status 200 indica que el email existe en la API
                                   if (response.status === 200) {
                                       const user = response.data;
-                                      console.log(user);
+                                      /* Guardo los datos en el singleton de sesion */
                                       authenticator.authenticate(user.name, user.email, user.display_pic_route);
                                       history.push("/", {auth: true});
                                   }
@@ -32,9 +35,7 @@ export function LoginPropio() {
                   })
                   .catch((error) => {
                       console.log(error);
-                      if(error.response.status === 404) {
-                          alert("El usuario no existe!");
-                      }
+                      setInvalidCred(true);
                   })
           }
           }
@@ -54,6 +55,7 @@ export function LoginPropio() {
                           <label htmlFor="password">Contraseña: </label>
                           <Field type='password' id='password' name='password' />
                       </Grid>
+                      {invalidCred? <p>Nombre de usuario o contraseña inválido</p> : null}
                       <button type='submit'>Enviar</button>
                   </Form>
               </Grid>

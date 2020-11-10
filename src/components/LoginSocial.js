@@ -1,11 +1,10 @@
 import React from 'react';
 import {GoogleLogin} from 'react-google-login';
-import {get, post} from "axios";
-import {authenticator} from "../App";
+import {apiClient, authenticator} from "../App";
 import {useHistory} from "react-router-dom";
 
 
-export function LoginSocial(props) {
+export function LoginSocial() {
     let history = useHistory();
 
     function handleResponse(response) {
@@ -19,7 +18,7 @@ export function LoginSocial(props) {
             password: "default"
         }
         let email = user.email;
-        get("http://localhost:4000/user/email/" + email, {responseType: 'json'})
+        apiClient.get("user/email/" + email)
             .then(response => {
                 // El status 200 indica que el email existe en la API
                 if (response.status === 200) {
@@ -31,7 +30,7 @@ export function LoginSocial(props) {
                 // Es una cuestion de Chrome que un 404, que seria esperado, igual se registre como error
                 // El error 404 indica que el usuario no existe para la API
                 if (error.response.status === 404) {
-                    post('http://localhost:4000/user', JSON.stringify(user, null, 2))
+                    apiClient.post('user', JSON.stringify(user, null, 2))
                         .then(response => {
                             if (response.status === 200) {
                                 authenticator.authenticate(user.name);
