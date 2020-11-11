@@ -27,7 +27,7 @@ export function LoginPropio() {
                                   if (response.status === 200) {
                                       const user = response.data;
                                       /* Guardo los datos en el singleton de sesion */
-                                      authenticator.authenticate(user.name, user.email, user.display_pic_route);
+                                      authenticator.authenticate(user.name, user.email, null);
                                       history.push("/", {auth: true});
                                   }
                               }).catch(error => alert("API Caida"))

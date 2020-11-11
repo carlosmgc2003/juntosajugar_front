@@ -4,6 +4,7 @@ import React from "react";
 import {Button} from "@material-ui/core";
 import {Link as RouterLink} from "react-router-dom";
 import {GameCreation} from "../components/GameCreation";
+import NiceHeader from "../components/HeaderComp";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -16,10 +17,7 @@ export default function NewGame() {
     return (
         <Container>
             <header>
-                <div>
-                    <h1>¡Juntos a Jugar!</h1>
-                    <p>La web donde jugamos y aprendemos :)</p>
-                </div>
+                <NiceHeader />
             </header>
             <div className={classes.root}>
                 <GameCreation></GameCreation>

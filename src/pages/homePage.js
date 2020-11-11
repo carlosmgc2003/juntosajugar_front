@@ -7,6 +7,7 @@ import {Button} from "@material-ui/core";
 import {Link as RouterLink} from 'react-router-dom';
 import {authenticator} from "../App";
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import NiceHeader from "../components/HeaderComp";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -27,7 +28,7 @@ function LoginButton(props) {
         return (
             <div>
                 <div>
-                    {authenticator.display_pic !== "Desconocido" ? <img src={authenticator.display_pic} alt={authenticator.name}/>
+                    {authenticator.display_pic !== null ? <img src={authenticator.display_pic} alt={authenticator.name}/>
                             : <AccountCircleIcon />}
                 </div>
                 <div>
@@ -61,10 +62,7 @@ export default function Home(props) {
     return (
         <Container>
             <header>
-                <div>
-                    <h1>¡Juntos a Jugar!</h1>
-                    <p>La web donde jugamos y aprendemos :)</p>
-                </div>
+                <NiceHeader />
             </header>
             <div className={classes.root}>
                 <Grid container spacing={3} alignItems="stretch">

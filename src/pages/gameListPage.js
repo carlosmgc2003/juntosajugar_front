@@ -3,6 +3,7 @@ import Container from "@material-ui/core/Container";
 import React from "react";
 import {Button} from "@material-ui/core";
 import {Link as RouterLink} from "react-router-dom";
+import NiceHeader from "../components/HeaderComp";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -15,10 +16,7 @@ export default function GameList() {
     return (
         <Container>
             <header>
-                <div>
-                    <h1>¡Juntos a Jugar!</h1>
-                    <p>La web donde jugamos y aprendemos :)</p>
-                </div>
+                <NiceHeader />
             </header>
             <div className={classes.root}>
                 <h2>Aca irá la lista de juegos!</h2>
