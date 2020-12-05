@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import makeStyles from "@material-ui/core/styles/makeStyles";
@@ -7,7 +6,6 @@ import {Button} from "@material-ui/core";
 import {Link as RouterLink} from 'react-router-dom';
 import {authenticator} from "../App";
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import NiceHeader from "../components/HeaderComp";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -56,14 +54,11 @@ function LoginButton(props) {
     }
 }
 
-export default function Home(props) {
+export default function Home() {
     const classes = useStyles();
 
     return (
-        <Container>
-            <header>
-                <NiceHeader />
-            </header>
+
             <div className={classes.root}>
                 <Grid container spacing={3} alignItems="stretch">
                     <Grid item xs={4}>
@@ -95,6 +90,5 @@ export default function Home(props) {
                     </Grid>
                 </Grid>
             </div>
-        </Container>
     );
 }

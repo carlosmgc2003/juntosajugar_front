@@ -8,6 +8,8 @@ import {
 import Login from "./pages/joinPage";
 import GameList from "./pages/gameListPage";
 import NewGame from "./pages/newGamePage";
+import NiceHeader from "./components/HeaderComp";
+import {Container} from "@material-ui/core";
 
 const axios = require('axios');
 
@@ -55,22 +57,28 @@ authenticator.init();
 // Componente principal que tiene las rutas necesarias para diferenciar el contenido
 function App() {
     return (
-        <div>
-            <Switch>
-                <PrivateRoute path="/newgame">
-                    <NewGame/>
-                </PrivateRoute>
-                <PrivateRoute path="/games">
-                    <GameList/>
-                </PrivateRoute>
-                <Route path="/login">
-                    <Login/>
-                </Route>
-                <Route path="/">
-                    <Home/>
-                </Route>
-            </Switch>
-        </div>
+        <Container>
+            <header>
+                <NiceHeader/>
+            </header>
+            <div>
+                <Switch>
+                    <PrivateRoute path="/newgame">
+                        <NewGame/>
+                    </PrivateRoute>
+                    <PrivateRoute path="/games">
+                        <GameList/>
+                    </PrivateRoute>
+                    <Route path="/login">
+                        <Login/>
+                    </Route>
+                    <Route path="/">
+                        <Home/>
+                    </Route>
+                </Switch>
+            </div>
+        </Container>
+
     );
 }
 
