@@ -13,7 +13,7 @@ class UserList extends React.Component {
     }
 
     retrieveUsersFromAPI(){
-        apiclient.get('user')
+        apiClient.get('user')
             .then((response) => {
                 this.setState({ userData: response.data, isLoaded: true })
             })

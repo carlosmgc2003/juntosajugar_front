@@ -20,7 +20,7 @@ export default function Login() {
             <div className={classes.root}>
                 <h2>Cuenta JaJ</h2>
                 <LoginPropio/>
-                <h2>Si no tenes cuenta...</h2>
+                <h2>o si no...</h2>
                 <LoginSocial/>
                 <Button variant="contained" color="primary" component={RouterLink} to="/">Volver</Button>
             </div>

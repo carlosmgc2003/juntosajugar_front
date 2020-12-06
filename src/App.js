@@ -11,12 +11,6 @@ import NewGame from "./pages/newGamePage";
 import NiceHeader from "./components/HeaderComp";
 import {Container} from "@material-ui/core";
 
-const axios = require('axios');
-
-export const apiClient = axios.create({
-    baseURL : "http://localhost:4000/",
-    withCredentials: true
-})
 
 
 

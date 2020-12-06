@@ -1,13 +1,17 @@
 import React from 'react';
 import {GoogleLogin} from 'react-google-login';
-import {apiClient, authenticator} from "../App";
+import {authenticator} from "../App";
 import {useHistory} from "react-router-dom";
+import {apiClient} from "./ApiHandler";
+import {Grid} from "@material-ui/core";
+
 
 
 export function LoginSocial() {
     let history = useHistory();
+    const [failure, setFailure] = React.useState(false);
 
-    function handleResponse(response) {
+    async function handleResponse(response) {
         const userData = response.profileObj;
         console.log(userData);
         const userToken = response.tokenId;
@@ -19,43 +23,33 @@ export function LoginSocial() {
             password: "default"
         }
         let email = user.email;
-        apiClient.get("user/email/" + email)
-            .then(response => {
-                // El status 200 indica que el email existe en la API
-                if (response.status === 200) {
-                    authenticator.authenticate(user.name, user.email, user.display_pic_route);
-                    history.push("/", {auth: true});
-                }
-            })
-            .catch((error) => {
-                // Es una cuestion de Chrome que un 404, que seria esperado, igual se registre como error
-                // El error 404 indica que el usuario no existe para la API
-                if (error.response.status === 404) {
-                    console.log(user);
-                    apiClient.post('user', JSON.stringify(user, null, 2))
-                        .then(response => {
-                            if (response.status === 200) {
-                                authenticator.authenticate(user.name, user.email, user.display_pic_route);
-                                history.push("/", {auth: true});
-                            }
-                        })
-                        .catch((error) => {
-                            if (!error.response.status === 409) {
-                                console.log(error);
-                                alert("Error API caida (post)!");
-                            }
-                        })
-                } else {
-                    console.log("Error API caida (get)")
-                }
-            });
+        if (await apiClient.checkUserExists(email)) {
+            authenticator.authenticate(user.name, user.email, user.display_pic_route);
+            history.push("/", {auth: true});
+        } else {
+            if (await apiClient.saveUserData(user)) {
+                authenticator.authenticate(user.name, user.email, user.display_pic_route);
+                history.push("/", {auth: true});
+            } else {
+                console.log("Error API caida");
+            }
+        }
     }
-
-    return (<GoogleLogin
-        clientId="836483726590-4krmbdnkuoo60tlfl9kbk9mlof558sli.apps.googleusercontent.com"
-        buttonText="Login"
-        onSuccess={handleResponse}
-        onFailure={handleResponse}
-        cookiePolicy={'single_host_origin'}
-    />);
+    return (
+        <Grid container justify="flex-start"
+              alignItems="center" spacing={3}>
+            <Grid item>
+                <GoogleLogin
+                    clientId="836483726590-4krmbdnkuoo60tlfl9kbk9mlof558sli.apps.googleusercontent.com"
+                    buttonText="Login"
+                    onSuccess={handleResponse}
+                    onFailure={() => setFailure(true)}
+                    cookiePolicy={'single_host_origin'}
+                />
+            </Grid>
+            {failure? <Grid item>
+                <p>Fallo el login de Google, intentalo de nuevo.</p>
+            </Grid>: null}
+        </Grid>
+        );
 }
