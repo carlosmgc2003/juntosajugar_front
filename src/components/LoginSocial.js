@@ -4,10 +4,16 @@ import {authenticator} from "../App";
 import {useHistory} from "react-router-dom";
 import {apiClient} from "./ApiHandler";
 import {Grid} from "@material-ui/core";
+import {makeStyles} from "@material-ui/core/styles";
 
-
+const useStyles = makeStyles(() => ({
+    button: {
+        margin: '3px',
+    }
+}));
 
 export function LoginSocial() {
+    const classes = useStyles();
     let history = useHistory();
     const [failure, setFailure] = React.useState(false);
 
@@ -40,6 +46,7 @@ export function LoginSocial() {
               alignItems="center" spacing={3}>
             <Grid item>
                 <GoogleLogin
+                    className={classes.button}
                     clientId="836483726590-4krmbdnkuoo60tlfl9kbk9mlof558sli.apps.googleusercontent.com"
                     buttonText="Login"
                     onSuccess={handleResponse}

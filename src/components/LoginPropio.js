@@ -15,6 +15,9 @@ const useStyles = makeStyles((theme) => ({
         textAlign: 'center',
         color: theme.palette.text.secondary,
     },
+    button: {
+        margin: '3px',
+    }
 }));
 
 export function LoginPropio() {
@@ -57,7 +60,10 @@ export function LoginPropio() {
                                     <label htmlFor="email">Email: </label>
                                 </Grid>
                                 <Grid item>
-                                    <Field component={TextField} variant="outlined" type='email' id='email' name='email' placeholder="carlos@juntosajugar.com"/>
+                                    <Field component={TextField}
+                                           variant="outlined"
+                                           type='email' id='email' name='email'
+                                           placeholder="carlos@juntosajugar.com"/>
                         </Grid>
                                 <Grid item>
                                     <label htmlFor="password">Contraseña: </label>
@@ -66,7 +72,12 @@ export function LoginPropio() {
                                     <Field component={TextField} variant="outlined" type='password' id='password' name='password'/>
                         </Grid>
                                 {invalidCred ? <Grid item xs={12}><p>Nombre de usuario o contraseña inválido</p></Grid> : null}
-                                <Grid item><Button type='submit' variant={"contained"} color={"primary"}>Enviar</Button></Grid>
+                                <Grid item>
+                                    <Button className={classes.button}
+                                            type='submit'
+                                            variant={"contained"}
+                                            color={"primary"}>Ingresar</Button>
+                                </Grid>
                         </Paper>
                     </Form>
                 </Grid>
