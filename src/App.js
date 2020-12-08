@@ -11,26 +11,26 @@ import NewGame from "./pages/newGamePage";
 import NiceHeader from "./components/HeaderComp";
 import {Container} from "@material-ui/core";
 
-
-
-
 // Objeto singleton que manejará el estado de login del usuario.
 export const authenticator = {
     isAuthenticated: false,
+    id: null,
     name: null,
     email: null,
     display_pic: null,
     sessionCookie: null,
-    authenticate : function(name, email, display_pic, session_cookie) {
+    authenticate : function(id, name, email, display_pic) {
         authenticator.isAuthenticated = true;
+        authenticator.id = id;
         authenticator.name = name;
         authenticator.email = email;
         authenticator.display_pic = display_pic;
-        authenticator.sessionCookie = session_cookie;
+        //authenticator.sessionCookie = session_cookie;
+        sessionStorage.setItem("id", this.id);
         sessionStorage.setItem("name", this.name);
         sessionStorage.setItem("email", this.email);
-        sessionStorage.setItem("display_pic", this.display_pic)
-        sessionStorage.setItem("sessionCookie", this.sessionCookie)
+        sessionStorage.setItem("display_pic", this.display_pic);
+        //sessionStorage.setItem("sessionCookie", this.sessionCookie);
     },
     signout: function(callback) {
         authenticator.isAuthenticated = false;
@@ -39,10 +39,11 @@ export const authenticator = {
     },
     init: function() {
         if(sessionStorage.getItem("email") !== null) {
+            let id = sessionStorage.getItem("id");
             let name = sessionStorage.getItem("name");
             let email = sessionStorage.getItem("email");
             let display_pic = sessionStorage.getItem("display_pic");
-            this.authenticate(name, email, display_pic);
+            this.authenticate(id, name, email, display_pic);
         }
     }
 };
@@ -58,7 +59,7 @@ function App() {
             <div>
                 <Switch>
                     <PrivateRoute path="/newgame">
-                        <NewGame/>
+                            <NewGame/>
                     </PrivateRoute>
                     <PrivateRoute path="/games">
                         <GameList/>

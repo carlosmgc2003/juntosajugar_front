@@ -31,5 +31,10 @@ export const apiClient = {
         return await client.post('user', JSON.stringify(user, null, 2))
             .then(() => true)
             .catch(() => false);
+    },
+    saveGameMeeting : async function(gamemeeting) {
+        return await client.post('gamemeeting', JSON.stringify(gamemeeting, null, 2))
+            .then(() => true)
+            .catch(() => false);
     }
 }

@@ -37,7 +37,8 @@ export function LoginPropio() {
                             .then(
                                 user => {
                                     if (user) {
-                                        authenticator.authenticate(user.name, user.email, null);
+                                        console.log(user);
+                                        authenticator.authenticate(user.ID, user.name, user.email, null);
                                         history.push("/", {auth: true});
                                     } else {
                                         setInvalidCred(true);
