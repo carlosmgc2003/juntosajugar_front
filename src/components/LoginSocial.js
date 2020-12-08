@@ -48,7 +48,7 @@ export function LoginSocial() {
                 <GoogleLogin
                     className={classes.button}
                     clientId="836483726590-4krmbdnkuoo60tlfl9kbk9mlof558sli.apps.googleusercontent.com"
-                    buttonText="Login"
+                    buttonText="Ingresar con Google"
                     onSuccess={handleResponse}
                     onFailure={() => setFailure(true)}
                     cookiePolicy={'single_host_origin'}

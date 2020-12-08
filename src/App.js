@@ -5,7 +5,7 @@ import {
     Route,
     Redirect
 } from "react-router-dom";
-import Login from "./pages/joinPage";
+import JoinOrLogin from "./pages/joinPage";
 import GameList from "./pages/gameListPage";
 import NewGame from "./pages/newGamePage";
 import NiceHeader from "./components/HeaderComp";
@@ -64,7 +64,7 @@ function App() {
                         <GameList/>
                     </PrivateRoute>
                     <Route path="/login">
-                        <Login/>
+                        <JoinOrLogin/>
                     </Route>
                     <Route path="/">
                         <Home/>

@@ -1,13 +1,46 @@
-import React from 'react';
-import {ErrorMessage, Field, Form, Formik} from 'formik';
-import {apiClient} from "../App";
+import React, {useState} from 'react';
+import {Field, Form, Formik} from 'formik';
+import {apiClient} from "./ApiHandler";
+import {useHistory} from "react-router-dom";
+import {makeStyles} from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";
+import Paper from "@material-ui/core/Paper";
+import { TextField } from 'formik-material-ui';
+import {Button} from "@material-ui/core";
+//import { SimpleFileUpload } from 'formik-material-ui';
+
+const useStyles = makeStyles((theme) => ({
+    paper: {
+        padding: theme.spacing(2),
+        textAlign: 'center',
+        color: theme.palette.text.secondary,
+    },
+    button: {
+        margin: '3px',
+    }
+}));
 
 
-const UserCreation = () => (
-    <div>
-        <h2>Creación de Usuario</h2>
+
+export default function UserCreation(){
+    let history = useHistory();
+    const classes = useStyles();
+    const [invalidOperation, setInvalidOperation] = useState(false);
+    return (
+    <React.Fragment>
+        <Grid
+            container
+            direction={"row"}
+            justify="flex-start"
+            alignItems="baseline"
+            spacing={3}
+        >
+            <Paper className={classes.paper}>
+                <Grid item>
+                    <h2>Creación de Usuario</h2>
+                </Grid>
         <Formik
-            initialValues={{ email: '', name: '', display_pic_route:'' }}
+            initialValues={{ email: '', name: '',password: '', display_pic_route:'', rep_password:'' }}
             validate={values => {
                 const errors = {};
                 if (!values.email) {
@@ -19,10 +52,6 @@ const UserCreation = () => (
                 }
                 if (!values.name) {
                     errors.name = 'Requerido';
-                } else if (
-                    !/^(?:[a-zA-Z0-9]+[._]?[a-zA-Z0-9]+)+$/i.test(values.name)
-                ) {
-                    errors.name = 'Nombre de usuario inválido.'
                 } else if (
                     values.name.length <= 6
                 ) {
@@ -38,51 +67,65 @@ const UserCreation = () => (
                 ) {
                     errors.display_pic_route = 'Nombre de archivo demasiado largo'
                 }
+                if(!values.rep_password) {
+                    errors.rep_password = 'Debe repetir el password';
+                }
+                if(!values.password) {
+                    errors.password = 'Requerido';
+                }
+                else if(values.password.length < 6) {
+                    errors.password = 'Debe ser de 6 o mas caracteres';
+                } else if(values.password !== values.rep_password) {
+                    errors.rep_password = 'No coinciden las contrasenias';
+                }
                 return errors;
             }}
-            onSubmit={(values, { setSubmitting }) => {
-                setTimeout(() => {
-                    apiClient.post('user', JSON.stringify(values, null, 2))
-                        .then((response)=> console.log(response))
-                        .catch((error) => console.log(error))
-                        .finally(() => alert("Sus datos se han enviado correctamente"))
-                    setSubmitting(true);
-                }, 400);
+            onSubmit={async (values, { setSubmitting }) => {
+                setSubmitting(true);
+                if(await apiClient.saveUserData(values)) {
+                    history.push("/");
+                } else {
+                    setInvalidOperation(true);
+                }
+
             }}
         >
             {({
-                  values,
-                  errors,
-                  touched,
-                  handleChange,
-                  handleBlur,
-                  handleSubmit,
                   isSubmitting,
-                  /* and other goodies */
               }) => (
                 <Form>
-                    <div>
-                        <label htmlFor="email">E-mail</label>
-                        <Field type="email" name="email" />
-                        <ErrorMessage name="email" component="div" />
-                    </div>
-                    <div>
-                        <label htmlFor="name">Nombre de Usuario</label>
-                        <Field type="text" name="name" />
-                        <ErrorMessage name="name" component="div" />
-                    </div>
-                   <div>
-                       <label htmlFor="display_pic_route">Avatar</label>
-                       <Field type="file" name="display_pic_route" />
-                       <ErrorMessage name="display_pic_route" component="div" />
-                   </div>
-                    <button type="submit" disabled={isSubmitting}>
-                        Guardar
-                    </button>
+                    <Grid item>
+                        <Field component={TextField} type="email" name="email" label={'E-Mail'}/>
+                    </Grid>
+                    <Grid item>
+                        <Field component={TextField} type="text" name="name" label={'Nombre completo'}/>
+                    </Grid>
+                    {/*
+                    <Grid item>
+                        <Field component={SimpleFileUpload} name="display_pic_route" label={'Archivo de Imagen'}/>
+                    </Grid>
+                    */}
+                    <Grid item>
+                        <Field component={TextField} type="password" name="password" label={'Contraseña'}/>
+                    </Grid>
+                    <Grid item>
+                        <Field component={TextField} type="password" name="rep_password" label={'Repetir Contraseña'}/>
+                    </Grid>
+                    <Grid item>
+                        <Button className={classes.button}
+                                type='submit'
+                                variant={"contained"}
+                                disabled={isSubmitting}
+                                color={"primary"}>Crear Usuario</Button>
+                    </Grid>
+                    {invalidOperation? <Grid item>
+                        <p>No se pudo crear el usuario, intenta mas tarde...</p>
+                    </Grid> : null}
                 </Form>
             )}
         </Formik>
-    </div>
+            </Paper>
+        </Grid>
+    </React.Fragment>
 );
-
-export default UserCreation;
+}

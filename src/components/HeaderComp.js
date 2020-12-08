@@ -13,7 +13,7 @@ export default function NiceHeader() {
                   alignItems="center">
                 <Grid item>
                     <h1>¡Juntos a Jugar!</h1>
-                    <p>La web donde jugamos y aprendemos 😉</p>
+                    <p>La web donde jugamos y aprendemos <span role="img" aria-label="eyelid">😉</span></p>
                 </Grid>
                 <Grid item>
                     <Button variant="contained" component={RouterLink} to="/">
