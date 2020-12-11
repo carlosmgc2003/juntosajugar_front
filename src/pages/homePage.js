@@ -16,11 +16,15 @@ const useStyles = makeStyles((theme) => ({
         textAlign: 'center',
         color: theme.palette.text.secondary,
     },
+    button: {
+        margin: '3px',
+    }
 }));
 
 
 // Componente boton que demuestra el estado de autenticacion del usuario.
 function LoginButton(props) {
+    const classes = useStyles();
     const [auth, setAuth] = useState(props.authenticated);
     if (auth) {
         return (
@@ -30,7 +34,7 @@ function LoginButton(props) {
                             : <AccountCircleIcon />}
                 </div>
                 <div>
-                    <Button variant="contained"
+                    <Button className={classes.button} variant="contained"
                             color="primary"
                             onClick={() => {
                                 authenticator.signout();
@@ -38,7 +42,11 @@ function LoginButton(props) {
                             }
                             }
                             to="/login">Salir {authenticator.name}</Button>
-                    {/*<Button variant="contained" color="primary">Mi Perfil</Button>*/}
+                    <Button className={classes.button}
+                            variant="contained"
+                            color="primary"
+                            component={RouterLink}
+                            to="/user">Mi Perfil</Button>
                 </div>
             </div>
 

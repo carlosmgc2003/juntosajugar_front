@@ -1,15 +1,12 @@
 import React from 'react';
 import Home from "./pages/homePage";
-import {
-    Switch,
-    Route,
-    Redirect
-} from "react-router-dom";
+import {Redirect, Route, Switch} from "react-router-dom";
 import JoinOrLogin from "./pages/joinPage";
 import GameList from "./pages/gameListPage";
 import NewGame from "./pages/newGamePage";
 import NiceHeader from "./components/HeaderComp";
 import {Container} from "@material-ui/core";
+import UserProfile from "./pages/userProfilePage";
 
 // Objeto singleton que manejará el estado de login del usuario.
 export const authenticator = {
@@ -19,7 +16,7 @@ export const authenticator = {
     email: null,
     display_pic: null,
     sessionCookie: null,
-    authenticate : function(id, name, email, display_pic) {
+    authenticate: function (id, name, email, display_pic) {
         authenticator.isAuthenticated = true;
         authenticator.id = id;
         authenticator.name = name;
@@ -32,13 +29,13 @@ export const authenticator = {
         sessionStorage.setItem("display_pic", this.display_pic);
         //sessionStorage.setItem("sessionCookie", this.sessionCookie);
     },
-    signout: function(callback) {
+    signout: function (callback) {
         authenticator.isAuthenticated = false;
         sessionStorage.clear();
         setTimeout(callback, 100);
     },
-    init: function() {
-        if(sessionStorage.getItem("email") !== null) {
+    init: function () {
+        if (sessionStorage.getItem("email") !== null) {
             let id = sessionStorage.getItem("id");
             let name = sessionStorage.getItem("name");
             let email = sessionStorage.getItem("email");
@@ -49,6 +46,7 @@ export const authenticator = {
 };
 
 authenticator.init();
+
 // Componente principal que tiene las rutas necesarias para diferenciar el contenido
 function App() {
     return (
@@ -59,13 +57,16 @@ function App() {
             <div>
                 <Switch>
                     <PrivateRoute path="/newgame">
-                            <NewGame/>
+                        <NewGame/>
                     </PrivateRoute>
                     <PrivateRoute path="/games">
                         <GameList/>
                     </PrivateRoute>
                     <Route path="/login">
                         <JoinOrLogin/>
+                    </Route>
+                    <Route path="/user">
+                        <UserProfile />
                     </Route>
                     <Route path="/">
                         <Home/>
@@ -90,7 +91,7 @@ function PrivateRoute({children, ...rest}) {
                     <Redirect
                         to={{
                             pathname: "/login",
-                            state: { from: location }
+                            state: {from: location}
                         }}
                     />
                 )

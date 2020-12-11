@@ -30,11 +30,13 @@ export function LoginSocial() {
         }
         let email = user.email;
         if (await apiClient.checkUserExists(email)) {
-            authenticator.authenticate(user.name, user.email, user.display_pic_route);
+            let userData = await apiClient.fetchUserData(email, user.password)
+            authenticator.authenticate(userData.ID, userData.name, userData.email, userData.display_pic_route);
             history.push("/", {auth: true});
         } else {
             if (await apiClient.saveUserData(user)) {
-                authenticator.authenticate(user.name, user.email, user.display_pic_route);
+                let userData = await apiClient.fetchUserData(email, user.password)
+                authenticator.authenticate(userData.ID, userData.name, userData.email, userData.display_pic_route);
                 history.push("/", {auth: true});
             } else {
                 console.log("Error API caida");
