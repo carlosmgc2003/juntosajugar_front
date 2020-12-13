@@ -65,9 +65,9 @@ function App() {
                     <Route path="/login">
                         <JoinOrLogin/>
                     </Route>
-                    <Route path="/user">
+                    <PrivateRoute path="/user">
                         <UserProfile />
-                    </Route>
+                    </PrivateRoute>
                     <Route path="/">
                         <Home/>
                     </Route>
