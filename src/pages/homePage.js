@@ -3,9 +3,11 @@ import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import {Button} from "@material-ui/core";
-import {Link as RouterLink} from 'react-router-dom';
+import {Link as RouterLink, useHistory} from 'react-router-dom';
 import {authenticator} from "../App";
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import {UserGamemeetings} from "../components/UserGameMeetings";
+import {UserJoinedGamemeetings} from "../components/UserJoinedGamemeetings";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -24,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
 
 // Componente boton que demuestra el estado de autenticacion del usuario.
 function LoginButton(props) {
+    let history = useHistory();
     const classes = useStyles();
     const [auth, setAuth] = useState(props.authenticated);
     if (auth) {
@@ -37,8 +40,9 @@ function LoginButton(props) {
                     <Button className={classes.button} variant="contained"
                             color="primary"
                             onClick={() => {
-                                authenticator.signout();
+                                authenticator.signout(history.push("/"));
                                 setAuth(false);
+                                props.callback(false);
                             }
                             }
                             to="/login">Salir {authenticator.name}</Button>
@@ -64,16 +68,15 @@ function LoginButton(props) {
 
 export default function Home() {
     const classes = useStyles();
-
+    const [update, setUpdate] = useState(authenticator.isAuthenticated)
     return (
-
             <div className={classes.root}>
                 <Grid container spacing={3} alignItems="stretch">
                     <Grid item xs={4}>
                         <h2>Para empezar a jugar</h2>
                         <p>Ingrese como usuario, es rápido!</p>
                         <Paper className={classes.paper}>
-                            <LoginButton authenticated={authenticator.isAuthenticated}/>
+                            <LoginButton authenticated={authenticator.isAuthenticated} callback={setUpdate}/>
                         </Paper>
                     </Grid>
                     <Grid item xs={4}>
@@ -96,6 +99,18 @@ export default function Home() {
                                     to="/newgame">Crear Reunion</Button>
                         </Paper>
                     </Grid>
+                    {(authenticator.isAuthenticated && update? (<Grid item xs={12}>
+                        <Paper className={classes.paper}>
+                            <h2>Mis juegos Creados</h2>
+                            <UserGamemeetings/>
+                        </Paper>
+                    </Grid>) : null)}
+                    {(authenticator.isAuthenticated && update? (<Grid item xs={12}>
+                        <Paper className={classes.paper}>
+                            <h2>Juegos Pendientes</h2>
+                            <UserJoinedGamemeetings/>
+                        </Paper>
+                    </Grid>) : null)}
                 </Grid>
             </div>
     );

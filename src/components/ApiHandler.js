@@ -69,7 +69,6 @@ export const apiClient = {
     saveAndAssignBoargameUser: async function(userID, boardgame) {
         try{
             let savedBoardgame = await this.findBoardgameByName(boardgame.name);
-            console.log(savedBoardgame);
             if(!savedBoardgame){
                 let bgID = await this.saveBoardgame(boardgame);
                 if(bgID){
@@ -85,7 +84,41 @@ export const apiClient = {
         } catch (e) {
             console.log(e);
         }
-
+    },
+    fetchGamemeetings: async function(){
+        try{
+            let response = await client.get('gamemeeting',{responseType: 'json'});
+            return response.data;
+        } catch (e) {
+            return null;
+        }
+    },
+    fetchUserGamemeetings: async function(user_id){
+        try{
+            const response = await client.get('gamemeeting',{responseType: 'json'});
+            const gamemeetings = response.data;
+            return gamemeetings.filter(gm => gm.Owner.ID === parseInt(user_id))
+        } catch (e) {
+            return null;
+        }
+    },
+    fetchUserJoinedGamemeetings: async function(user_id){
+        try{
+            const response = await client.get('gamemeeting/user/'+ user_id,{responseType: 'json'});
+            return  response.data;
+        } catch (e) {
+            console.log(e);
+            return [];
+        }
+    },
+    deleteUserCreatedGamemeeting: async function(game_id, user_id){
+        try{
+            const response = await client.delete('gamemeeting/user/'+ game_id, {responseType: 'json',
+            data:{user_id:user_id}})
+            return  response.data;
+        } catch (e) {
+            console.log(e);
+            return null;
+        }
     }
-
 }
