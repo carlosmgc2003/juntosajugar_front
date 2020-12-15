@@ -113,8 +113,9 @@ export const apiClient = {
     },
     deleteUserCreatedGamemeeting: async function(game_id, user_id){
         try{
-            const response = await client.delete('gamemeeting/user/'+ game_id, {responseType: 'json',
-            data:{user_id:user_id}})
+            const response = await client.delete('gamemeeting/'+ game_id, {
+             headers:{'Authorization':user_id}});
+            console.log(response.data);
             return  response.data;
         } catch (e) {
             console.log(e);

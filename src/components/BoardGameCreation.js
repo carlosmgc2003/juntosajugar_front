@@ -54,6 +54,8 @@ export function BoardGameCreation(props) {
                             }
                             if (!values.display_pic_route) {
                                 errors.display_pic_route = 'Requerido';
+                            } else if (values.display_pic_route.length < 10 || values.display_pic_route.length > 50){
+                                errors.display_pic_route = 'Debe tener entre 10 y 50 caracteres.'
                             }
                             return errors;
                         }}

@@ -7,18 +7,18 @@ import {authenticator} from "../App";
 
 export function UserGamemeetings(props){
     const [userGm, setUserGm] = React.useState([]);
+    const [update, setUpdate] = React.useState(true);
     React.useEffect( () => {
         (async function () {
             let data = await apiClient.fetchUserGamemeetings(authenticator.id);
             console.log(data);
             setUserGm(data);
         })();
-    }, [props.update]);
-    if(userGm.length === 0){
+    }, [props.update, update]);
+    if(userGm.length === 0 || !userGm){
         return <p>Todavia no tienes reuniones que mostrar!</p>
     } else {
         return (
-
             <TableContainer component={Paper}>
             <Table size="small" aria-label="a dense table">
                 <TableHead>
@@ -47,7 +47,10 @@ export function UserGamemeetings(props){
                                 <Button
                                     variant="contained"
                                     color="secondary"
-                                    onClick={()=>apiClient.deleteUserCreatedGamemeeting(gm.ID, authenticator.id)}>
+                                    onClick={()=>{
+                                        apiClient.deleteUserCreatedGamemeeting(gm.ID, authenticator.id);
+                                        setUpdate(!update);
+                                    }}>
                                 Desistir
                             </Button>
                             </TableCell>
