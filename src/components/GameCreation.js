@@ -3,7 +3,6 @@ import {Field, Form, Formik} from 'formik';
 import {TextField} from "formik-material-ui";
 import {Button, FormControl, InputLabel, MenuItem} from "@material-ui/core";
 import {DateTimePicker} from 'formik-material-ui-pickers';
-//import {apiClient} from "./ApiHandler";
 import {makeStyles} from "@material-ui/core/styles";
 import {useHistory} from "react-router-dom";
 import Grid from "@material-ui/core/Grid";

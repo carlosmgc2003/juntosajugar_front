@@ -19,8 +19,8 @@ export const apiClient = {
     },
     fetchUserData: async function (email, password) {
         try {
-            if (this.login(email, password)) {
-                var response = await client.get("user/email/" + email, {responseType: 'json'});
+            if (await this.login(email, password)) {
+                const response = await client.get("user/email/" + email, {responseType: 'json'});
                 return response.data;
             }
         } catch (e) {
