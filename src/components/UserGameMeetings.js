@@ -47,9 +47,10 @@ export function UserGamemeetings(props){
                                 <Button
                                     variant="contained"
                                     color="secondary"
-                                    onClick={()=>{
-                                        apiClient.deleteUserCreatedGamemeeting(gm.ID, authenticator.id);
-                                        setUpdate(!update);
+                                    onClick={async ()=>{
+                                        if (await apiClient.deleteUserCreatedGamemeeting(gm.ID, authenticator.id)) {
+                                            setUpdate(!update);
+                                        }
                                     }}>
                                 Desistir
                             </Button>

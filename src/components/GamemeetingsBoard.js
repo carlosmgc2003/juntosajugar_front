@@ -70,9 +70,10 @@ export function GamemeetingsBoard(){
                                     disabled={(()=> {
                                         return gm.OwnerID === parseInt(authenticator.id) || userGMIDs.includes(gm.ID);
                                     })()}
-                                    onClick={()=>{
-                                        apiClient.joinToGamemeetings(gm.ID, authenticator.id);
-                                        setUpdate(!update);}}
+                                    onClick={async ()=>{
+                                        if(await apiClient.joinToGamemeetings(gm.ID, authenticator.id)){
+                                            setUpdate(!update);}
+                                    }}
                                 >
                                     Unirme!
                                 </Button>

@@ -42,9 +42,10 @@ export function UserJoinedGamemeetings(props){
                             <TableCell align="left">{gm.Boardgame.name}</TableCell>
                             <TableCell align="left">{gm.Players.length}/{gm.max_players}</TableCell>
                             <TableCell align="left">
-                                <Button variant="contained" color="secondary" onClick={()=>{
-                                    apiClient.disjoinToGamemeetings(gm.ID, authenticator.id);
-                                    setUpdate(!update);
+                                <Button variant="contained" color="secondary" onClick={async ()=>{
+                                    if(await apiClient.disjoinToGamemeetings(gm.ID, authenticator.id)){
+                                        setUpdate(!update);
+                                    }
                                 }}>
                                     Abandonar
                                 </Button>
