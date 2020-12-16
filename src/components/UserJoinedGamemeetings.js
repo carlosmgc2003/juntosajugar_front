@@ -7,12 +7,13 @@ import {authenticator} from "../App";
 
 export function UserJoinedGamemeetings(props){
     const [userGm, setUserGm] = React.useState([]);
+    const [update, setUpdate] = React.useState(false);
     React.useEffect( () => {
         (async function () {
             let data = await apiClient.fetchUserJoinedGamemeetings(authenticator.id);
             data? setUserGm(data): setUserGm([]);
         })();
-    }, [props.update]);
+    }, [props.update, update]);
     if(userGm.length === 0){
         return <p>Todavia no tienes reuniones que mostrar!</p>
     } else {
@@ -41,7 +42,10 @@ export function UserJoinedGamemeetings(props){
                             <TableCell align="left">{gm.Boardgame.name}</TableCell>
                             <TableCell align="left">{gm.Players.length}/{gm.max_players}</TableCell>
                             <TableCell align="left">
-                                <Button variant="contained" color="secondary">
+                                <Button variant="contained" color="secondary" onClick={()=>{
+                                    apiClient.disjoinToGamemeetings(gm.ID, authenticator.id);
+                                    setUpdate(!update);
+                                }}>
                                     Abandonar
                                 </Button>
                             </TableCell>

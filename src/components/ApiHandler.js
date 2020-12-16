@@ -121,5 +121,24 @@ export const apiClient = {
             console.log(e);
             return null;
         }
+    },
+    joinToGamemeetings: async function(game_id, user_id){
+        try{
+            await client.get("/gamemeeting/"+ game_id + "/join/" + user_id);
+            return true;
+        } catch (e) {
+            console.log(e);
+            return false;
+        }
+    },
+    disjoinToGamemeetings: async function(game_id, user_id){
+        try{
+            await client.get("/gamemeeting/"+ game_id + "/disjoin/" + user_id);
+            return true;
+        } catch (e) {
+            console.log(e);
+            return false;
+        }
     }
+
 }

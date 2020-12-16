@@ -8,15 +8,27 @@ import Grid from "@material-ui/core/Grid";
 
 
 export function GamemeetingsBoard(){
-    const [userGm, setUserGm] = React.useState([]);
+    const [globalGM, setGlobalGM] = React.useState([]);
+    const [userGMIDs, setUserGMIDS] = React.useState([]);
     const [update, setUpdate] = React.useState(false);
     React.useEffect( () => {
         (async function () {
             let data = await apiClient.fetchGamemeetings();
-            setUserGm(data);
+            setGlobalGM(data);
         })();
     }, [update]);
-    if(userGm.length === 0){
+    React.useEffect( () => {
+        (async function () {
+            let userGameMeetings = await apiClient.fetchUserJoinedGamemeetings(authenticator.id);
+            let userGameMeetingsIDs = [];
+            if(userGameMeetings){
+                userGameMeetingsIDs = userGameMeetings.map((x)=>parseInt(x.ID))
+            }
+            setUserGMIDS(userGameMeetingsIDs);
+        })();
+    }, [update]);
+    console.log(userGMIDs);
+    if(!globalGM || globalGM.length === 0){
         return <p>Todavia no tienes reuniones que mostrar!</p>
     } else {
         return (
@@ -41,7 +53,7 @@ export function GamemeetingsBoard(){
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {userGm.map((gm, i) => (
+                    {globalGM.map((gm, i) => (
                         <TableRow key={i}>
                             <TableCell component="th" scope="row">
                                 {i}
@@ -52,7 +64,16 @@ export function GamemeetingsBoard(){
                             <TableCell align="left">{gm.Boardgame.name}</TableCell>
                             <TableCell align="left">{gm.Players.length}/{gm.max_players}</TableCell>
                             <TableCell align="left">
-                                <Button variant="contained" color="primary" disabled={(()=> gm.OwnerID === parseInt(authenticator.id))()}>
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    disabled={(()=> {
+                                        return gm.OwnerID === parseInt(authenticator.id) || userGMIDs.includes(gm.ID);
+                                    })()}
+                                    onClick={()=>{
+                                        apiClient.joinToGamemeetings(gm.ID, authenticator.id);
+                                        setUpdate(!update);}}
+                                >
                                     Unirme!
                                 </Button>
                             </TableCell>

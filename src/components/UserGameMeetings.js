@@ -15,7 +15,7 @@ export function UserGamemeetings(props){
             setUserGm(data);
         })();
     }, [props.update, update]);
-    if(userGm.length === 0 || !userGm){
+    if( !userGm  || userGm.length === 0 ){
         return <p>Todavia no tienes reuniones que mostrar!</p>
     } else {
         return (
