@@ -68,7 +68,7 @@ export function GamemeetingsBoard(){
                                     variant="contained"
                                     color="primary"
                                     disabled={(()=> {
-                                        return gm.OwnerID === parseInt(authenticator.id) || userGMIDs.includes(gm.ID);
+                                        return gm.OwnerID === parseInt(authenticator.id) || userGMIDs.includes(gm.ID) || gm.Players.length === gm.max_players;
                                     })()}
                                     onClick={async ()=>{
                                         if(await apiClient.joinToGamemeetings(gm.ID, authenticator.id)){
