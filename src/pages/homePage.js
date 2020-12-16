@@ -8,7 +8,6 @@ import {authenticator} from "../App";
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import {UserGamemeetings} from "../components/UserGameMeetings";
 import {UserJoinedGamemeetings} from "../components/UserJoinedGamemeetings";
-import UserList from "../components/UserList";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -109,12 +108,6 @@ export default function Home() {
                         <Paper className={classes.paper}>
                             <h2>Juegos Pendientes</h2>
                             <UserJoinedGamemeetings/>
-                        </Paper>
-                    </Grid>) : null)}
-                    {(authenticator.id === 1? (<Grid item xs={12}>
-                        <Paper className={classes.paper}>
-                            <h2>Espacio Admin</h2>
-                            <UserList />
                         </Paper>
                     </Grid>) : null)}
                 </Grid>
