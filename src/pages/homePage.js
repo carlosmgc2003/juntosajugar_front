@@ -70,8 +70,7 @@ export default function Home() {
     const classes = useStyles();
     const [update, setUpdate] = useState(authenticator.isAuthenticated)
     return (
-            <div className={classes.root}>
-                <Grid container spacing={3} alignItems="stretch">
+                <Grid container spacing={3} alignItems="stretch" className={classes.root}>
                     <Grid item xs={4}>
                         <h2>Para empezar a jugar</h2>
                         <p>Ingrese como usuario, es rápido!</p>
@@ -112,6 +111,5 @@ export default function Home() {
                         </Paper>
                     </Grid>) : null)}
                 </Grid>
-            </div>
     );
 }

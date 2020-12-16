@@ -6,6 +6,7 @@ import {GameCreation} from "../components/GameCreation";
 import DateFnsUtils from "@date-io/date-fns";
 import {MuiPickersUtilsProvider} from "@material-ui/pickers";
 import esLocale from "date-fns/locale/es";
+import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -17,11 +18,15 @@ const useStyles = makeStyles(() => ({
 export default function NewGame() {
     const classes = useStyles();
     return (
-            <div className={classes.root}>
-                <MuiPickersUtilsProvider utils={DateFnsUtils} locale={esLocale}>
-                    <GameCreation/>
-                </MuiPickersUtilsProvider>
-                <Button variant="contained" color="primary" component={RouterLink} to="/">Volver</Button>
-            </div>
+            <Grid container alignItems={'center'} className={classes.root}>
+                <Grid item xs={3}>
+                    <Button variant="contained" color="primary" component={RouterLink} to="/">Volver</Button>
+                </Grid>
+                <Grid item xs={12}>
+                    <MuiPickersUtilsProvider utils={DateFnsUtils} locale={esLocale}>
+                        <GameCreation/>
+                    </MuiPickersUtilsProvider>
+                </Grid>
+            </Grid>
     );
 }

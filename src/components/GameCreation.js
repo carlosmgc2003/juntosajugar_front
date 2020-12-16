@@ -26,9 +26,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // Componente de creacion de reunion nueva.
-// TODO: Tener la lista de juegos del usuario.
 // TODO: Agregar el mapa para seleccionar el lugar.
-// TODO: Convertir la Fecha y hora a formato de la API (RFC3339).
 export function GameCreation() {
     let history = useHistory();
     const classes = useStyles();
@@ -45,7 +43,6 @@ export function GameCreation() {
         return <p>Todavia no tienes juegos que mostrar!</p>
     } else {
         return (
-            <React.Fragment>
                 <Grid
                     container
                     direction={"row"}
@@ -128,7 +125,7 @@ export function GameCreation() {
                                         />
                                     </Grid>
                                     <Grid item>
-                                        <h2>Ingresar la cantidad maxima de jugadores</h2>
+                                        <h2>Cuantos jugadores...</h2>
                                         <Field component={TextField}
                                                variant="outlined"
                                                type='number' id='max_players' name='max_players'
@@ -147,7 +144,6 @@ export function GameCreation() {
                         </Formik>
                     </Paper>
                 </Grid>
-            </React.Fragment>
         );
     }
 }
