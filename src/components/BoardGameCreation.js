@@ -16,6 +16,9 @@ const useStyles = makeStyles((theme) => ({
     },
     button: {
         margin: '3px',
+    },
+    input: {
+        margin: '3px',
     }
 }));
 
@@ -85,13 +88,17 @@ export function BoardGameCreation(props) {
                                     <Field component={TextField}
                                            variant="outlined"
                                            type='text' id='name' name='name'
-                                           label={'Nombre del Juego'}/>
+                                           label={'Nombre del Juego'}
+                                           className={classes.input}
+                                    />
                                 </Grid>
                                 <Grid item>
                                     <FormControl variant="outlined" fullWidth
-                                                 error={touched.class && Boolean(errors.class)}>
+                                                 error={touched.class && Boolean(errors.class)}
+                                                 >
                                         <InputLabel id="classLabel">Clase</InputLabel>
                                         <Select
+
                                             fullWidth
                                             id="class"
                                             name="class"
@@ -115,7 +122,8 @@ export function BoardGameCreation(props) {
                                     <Field component={TextField}
                                            variant="outlined"
                                            type='text' id='display_pic_route' name='display_pic_route'
-                                           label={'Foto del Juego'}/>
+                                           label={'Foto del Juego'}
+                                           className={classes.input}/>
                                 </Grid>
                                 <Grid item>
                                     <Button type='submit'
