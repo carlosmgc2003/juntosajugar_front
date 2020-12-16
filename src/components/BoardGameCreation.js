@@ -30,7 +30,6 @@ export function BoardGameCreation(props) {
     const initialValues = {
         name: "",
         class: "",
-        display_pic_route: "",
     }
     return (
         <React.Fragment>
@@ -54,11 +53,6 @@ export function BoardGameCreation(props) {
                             }
                             if (!values.class) {
                                 errors.class = 'Requerido';
-                            }
-                            if (!values.display_pic_route) {
-                                errors.display_pic_route = 'Requerido';
-                            } else if (values.display_pic_route.length < 10 || values.display_pic_route.length > 50){
-                                errors.display_pic_route = 'Debe tener entre 10 y 50 caracteres.'
                             }
                             return errors;
                         }}
@@ -117,13 +111,6 @@ export function BoardGameCreation(props) {
                                         {touched.class && Boolean(errors.class) ?
                                             <FormHelperText>Requerido</FormHelperText> : null}
                                     </FormControl>
-                                </Grid>
-                                <Grid item>
-                                    <Field component={TextField}
-                                           variant="outlined"
-                                           type='text' id='display_pic_route' name='display_pic_route'
-                                           label={'Foto del Juego'}
-                                           className={classes.input}/>
                                 </Grid>
                                 <Grid item>
                                     <Button type='submit'
