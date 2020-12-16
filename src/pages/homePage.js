@@ -110,6 +110,12 @@ export default function Home() {
                             <UserJoinedGamemeetings/>
                         </Paper>
                     </Grid>) : null)}
+                    {(authenticator.id === 1? (<Grid item xs={12}>
+                        <Paper className={classes.paper}>
+                            <h2>Espacio Admin</h2>
+                            <UserList />
+                        </Paper>
+                    </Grid>) : null)}
                 </Grid>
     );
 }
